@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活動について - チーム碓氷製糸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* =========================
+           リセット & ベーススタイル
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: #fefcf9;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           カラーパレット定義
+        ========================= */
+        :root {
+            --primary-color: #6a7fdb;
+            --secondary-color: #8b9dc3;
+            --accent-color: #e8edf7;
+            --silk-white: #fefcf9;
+            --silk-cream: #f9f6f0;
+            --text-dark: #2c3e50;
+            --text-light: #5a6c7d;
+            --border-light: #e8eaf6;
+        }
+
+        /* =========================
+           ユーティリティクラス
+        ========================= */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================
+           ヘッダー（固定ナビゲーション）
+        ========================= */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(254, 252, 249, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: contain;
+        }
+
+        .logo:hover {
+            color: var(--secondary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 400;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        /* =========================
+           メインコンテンツ
+        ========================= */
+        main {
+            margin-top: 80px;
+        }
+
+        /* ページヘッダー */
+        .page-header {
+            background: linear-gradient(135deg, var(--silk-white) 0%, var(--silk-cream) 100%);
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -10%;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(106, 127, 219, 0.1) 0%, transparent 50%);
+            opacity: 0.6;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* セクション共通スタイル */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 2px;
+        }
+
+        /* ミッション・ビジョンセクション */
+        .mission {
+            background: white;
+        }
+
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .mission-card {
+            background: var(--silk-white);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .mission-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .mission-icon {
+            font-size: 2rem;
+        }
+
+        .mission-description {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* 活動詳細セクション */
+        .activities-detail {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #f4f7ff 100%);
+        }
+
+        .activity-detail-grid {
+            display: grid;
+            gap: 4rem;
+            margin-top: 3rem;
+        }
+
+        .activity-detail {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .activity-detail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .activity-detail-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 3rem 2rem;
+            text-align: center;
+        }
+
+        .activity-detail-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .activity-detail-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .activity-detail-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .activity-detail-content {
+            padding: 3rem;
+        }
+
+        .activity-overview {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .activity-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .feature-item {
+            padding: 1.5rem;
+            background: var(--accent-color);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .feature-item h4 {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .feature-item p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .activity-results {
+            background: var(--silk-cream);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .activity-results h4 {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .results-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .results-list li {
+            padding: 0.5rem 0;
+            color: var(--text-light);
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .results-list li::before {
+            content: '✓';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* パートナーセクション */
+        .partners {
+            background: var(--text-dark);
+            color: white;
+            text-align: center;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .partner-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .partner-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .partner-card p {
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        /* CTAセクション */
+        .cta-section {
+            background: linear-gradient(135deg, var(--silk-white) 0%, white 100%);
+            text-align: center;
+        }
+
+        .cta-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 18px 40px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 1.05rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(106, 127, 219, 0.4);
+        }
+
+        /* フッター */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            opacity: 0.8;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* =========================
+           レスポンシブデザイン
+        ========================= */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-header {
+                padding: 70px 0;
+            }
+
+            .section {
+                padding: 70px 0;
+            }
+
+            .mission-vision-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .activity-features {
+                grid-template-columns: 1fr;
+            }
+
+            .partners-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .mission-card,
+            .activity-detail-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .partner-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー（固定ナビゲーション） -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="チーム碓氷製糸ロゴ">
+                <span>チーム碓氷製糸</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">ホーム</a></li>
+                <li><a href="about.html" class="active">活動について</a></li>
+                <li><a href="contact.html">お問い合わせ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ページヘッダー -->
+        <section class="page-header">
+            <div class="container">
+                <h1 class="fade-in">活動について</h1>
+                <p class="fade-in">
+                    群馬県の伝統産業である製糸業を現代に蘇らせる、私たちの取り組みをご紹介します
+                </p>
+            </div>
+        </section>
+
+        <!-- ミッション・ビジョンセクション -->
+        <section class="mission section">
+            <div class="container">
+                <h2 class="section-title fade-in">ミッション・ビジョン</h2>
+                <p class="section-subtitle fade-in">
+                    私たちが目指す未来と、そのために取り組んでいることをお伝えします
+                </p>
+
+                <div class="mission-vision-grid">
+                    <div class="mission-card fade-in">
+                        <h3><span class="mission-icon">🎯</span>ミッション</h3>
+                        <p class="mission-description">
+                            絹（シルク）を日本の名産として復活させ、群馬県の伝統産業である製糸業を現代に蘇らせることです。
+                            学生ならではの視点と行動力で、シルクの魅力を新たな形で世界に発信し、
+                            富岡製糸場を日本の象徴的な観光地として確立することを目指しています。
+                        </p>
+                    </div>
+                    <div class="mission-card fade-in">
+                        <h3><span class="mission-icon">🌟</span>ビジョン</h3>
+                        <p class="mission-description">
+                            若い世代へシルクの魅力を知ってもらう機会を創出し、伝統産業と現代のライフスタイルを結ぶ架け橋となることです。
+                            地域企業様との産学連携を通じて、持続可能な地域活性化を実現し、
+                            次世代に受け継がれる新しい文化を創造していきます。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 活動詳細セクション -->
+        <section class="activities-detail section">
+            <div class="container">
+                <h2 class="section-title fade-in">活動詳細</h2>
+                <p class="section-subtitle fade-in">
+                    産学連携による実践的なプロジェクトの詳細をご紹介します
+                </p>
+
+                <div class="activity-detail-grid">
+                    <!-- シルクミサンガ開発 -->
+                    <div class="activity-detail fade-in">
+                        <div class="activity-detail-header">
+                            <span class="activity-detail-icon">🧵</span>
+                            <h3 class="activity-detail-title">シルクミサンガ開発</h3>
+                            <p class="activity-detail-subtitle">人との関係を紡ぐように、糸を紡ぐ</p>
+                        </div>
+                        <div class="activity-detail-content">
+                            <p class="activity-overview">
+                                絹遊塾工房風花様と連携し、シルクの魅力を現代の若者に伝えるアクセサリーとして、
+                                ミサンガを開発しました。草木染めによる天然の色彩と、シルクならではの光沢が特徴です。
+                            </p>
+                            <div class="activity-features">
+                                <div class="feature-item">
+                                    <h4>天然素材へのこだわり</h4>
+                                    <p>草木染めによる自然な色合いで、環境にも優しい製品づくりを実現</p>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>手作り体験ワークショップ</h4>
+                                    <p>作る楽しさを通じて、シルクの魅力を直接体感していただく機会を提供</p>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>ターゲット層への訴求</h4>
+                                    <p>恋人同士や家族向けのギフトとして、特別な想いを込められる商品設計</p>
+                                </div>
+                            </div>
+                            <div class="activity-results">
+                                <h4>活動成果</h4>
+                                <ul class="results-list">
+                                    <li>89キット分の商品を完成</li>
+                                    <li>エコラボカフェ様でワークショップ開催</li>
+                                    <li>家族層を中心とした好評価を獲得</li>
+                                    <li>商品パッケージ・説明書の制作完了</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 繭風呂体験 -->
+                    <div class="activity-detail fade-in">
+                        <div class="activity-detail-header">
+                            <span class="activity-detail-icon">🛁</span>
+                            <h3 class="activity-detail-title">繭風呂体験プロジェクト</h3>
+                            <p class="activity-detail-subtitle">シルクの保湿効果を体感できる新体験</p>
+                        </div>
+                        <div class="activity-detail-content">
+                            <p class="activity-overview">
+                                道の駅での実証実験として、繭を使った手湯体験を実施。
+                                2日間で400名以上の方に体験していただき、シルクの効果を広く知っていただくことができました。
+                            </p>
+                            <div class="activity-features">
+                                <div class="feature-item">
+                                    <h4>実証的マーケティング</h4>
+                                    <p>実際の顧客反応を調査し、商品改善に活かすデータを収集</p>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>シルクの効果実感</h4>
+                                    <p>繭の天然成分による保湿効果を、手軽に体験できる仕組みを構築</p>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>メディア露出</h4>
+                                    <p>上毛新聞に取り上げられ、プロジェクトの認知度向上を実現</p>
+                                </div>
+                            </div>
+                            <div class="activity-results">
+                                <h4>活動成果</h4>
+                                <ul class="results-list">
+                                    <li>2日間で400名以上が体験</li>
+                                    <li>家族層からの高い評価を獲得</li>
+                                    <li>上毛新聞に掲載される</li>
+                                    <li>顧客アンケートでニーズを把握</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 富岡製糸場連携 -->
+                    <div class="activity-detail fade-in">
+                        <div class="activity-detail-header">
+                            <span class="activity-detail-icon">🏛️</span>
+                            <h3 class="activity-detail-title">富岡製糸場連携構想</h3>
+                            <p class="activity-detail-subtitle">世界遺産を日本の象徴的観光地へ</p>
+                        </div>
+                        <div class="activity-detail-content">
+                            <p class="activity-overview">
+                                世界遺産である富岡製糸場の現状調査を行い、将来的な連携に向けた準備を進めています。
+                                AI技術を活用した多言語ガイドアプリの開発など、デジタル技術による観光体験の向上を目指しています。
+                            </p>
+                            <div class="activity-features">
+                                <div class="feature-item">
+                                    <h4>現地調査・分析</h4>
+                                    <p>観光客の動向や課題を詳細に分析し、改善案を検討</p>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>AI技術活用</h4>
+                                    <p>多言語対応のガイドアプリ開発により、国際的な観光地としての魅力向上</p>
+                                </div>
+                                <div class="feature-item">
+                                    <h4>学生視点の提案</h4>
+                                    <p>若い世代ならではの発想で、新しい観光体験を提案</p>
+                                </div>
+                            </div>
+                            <div class="activity-results">
+                                <h4>現在の取り組み</h4>
+                                <ul class="results-list">
+                                    <li>富岡製糸場での現地見学・調査実施</li>
+                                    <li>観光客へのヒアリング調査</li>
+                                    <li>AIガイドアプリのプロトタイプ開発中</li>
+                                    <li>関係者との連携体制構築</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- パートナーセクション -->
+        <section class="partners section">
+            <div class="container">
+                <h2 class="section-title fade-in" style="color: white;">連携パートナー</h2>
+                <p class="section-subtitle fade-in" style="color: rgba(255,255,255,0.8);">
+                    地域企業様との強力な連携により、プロジェクトを推進しています
+                </p>
+
+                <div class="partners-grid">
+                    <div class="partner-card fade-in">
+                        <h3>碓氷製糸株式会社様</h3>
+                        <p>
+                            群馬県唯一の製糸工場を持つ伝統企業。2017年設立の比較的新しい会社ながら、
+                            地域農家・自治体と密接に連携し、持続可能な地場産業の核を担っています。
+                            日本の伝統産業を守り続ける数少ない企業のひとつです。
+                        </p>
+                    </div>
+                    <div class="partner-card fade-in">
+                        <h3>絹遊塾工房風花様</h3>
+                        <p>
+                            群馬県桐生市に拠点を構える、伝統的な絹織物文化を"体験"として伝える工房。
+                            草木染めやガラ紡を活用しながら、持続可能なモノづくりと文化継承の両立を目指し、
+                            地域観光・教育との親和性も高い活動を展開されています。
+                        </p>
+                    </div>
+                    <div class="partner-card fade-in">
+                        <h3>学生団体SONOSAKI</h3>
+                        <p>
+                            群馬唯一の起業サークルとして、ビジネスやマーケティングについて学びながら成長したい学生が集まる団体。
+                            企業様が抱える課題を学生の視点で解決する「その先を照らせプロジェクト」を中心に活動しています。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTAセクション -->
+        <section class="cta-section section">
+            <div class="container">
+                <div class="cta-content fade-in">
+                    <h2>プロジェクトに参加しませんか？</h2>
+                    <p class="cta-description">
+                        チーム碓氷製糸では、シルクの魅力を現代に伝える仲間を募集しています。
+                        一緒に群馬県の伝統産業を盛り上げ、新しい文化を創造していきましょう。
+                    </p>
+                    <a href="contact.html" class="cta-button">お問い合わせ</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="index.html">ホーム</a>
+                    <a href="about.html">活動について</a>
+                    <a href="contact.html">お問い合わせ</a>
+                </div>
+                <p>&copy; 2025 チーム碓氷製糸. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // =========================
+        // スクロールアニメーション
+        // =========================
+        
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // 全ての fade-in 要素を監視
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // =========================
+        // ナビゲーション制御
+        // =========================
+        
+        function initHeaderControl() {
+            const header = document.querySelector('header');
+            let lastScrollY = window.scrollY;
+
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                // スクロール位置に応じてヘッダーの透明度を調整
+                if (currentScrollY > 100) {
+                    header.style.background = 'rgba(254, 252, 249, 0.98)';
+                } else {
+                    header.style.background = 'rgba(254, 252, 249, 0.95)';
+                }
+
+                lastScrollY = currentScrollY;
+            });
+        }
+
+        // =========================
+        // 初期化
+        // =========================
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initScrollAnimations();
+            initHeaderControl();
+            
+            // 初期表示要素のアニメーション（段階的に表示）
+            setTimeout(() => {
+                const fadeElements = document.querySelectorAll('.fade-in');
+                fadeElements.forEach((el, index) => {
+                    if (el.getBoundingClientRect().top < window.innerHeight) {
+                        setTimeout(() => {
+                            el.classList.add('visible');
+                        }, index * 150); // 150msずつ遅延
+                    }
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
